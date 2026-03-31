@@ -3,241 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VCV Mobile Rig</title>
+    <title>VCV | Context Mock-ups</title>
     <style>
         :root {
-            --bg: #d8d8d8;
+            --bg: #dcdcdc;
             --dark: #1A1A1B;
-            --olive: #4F5D44;
-            --accent: #B87333;
+            --p-color: #4F5D44; /* 60% */
+            --s-color: #2D2D2E; /* 30% */
+            --a-color: #B87333; /* 10% */
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, sans-serif;
             background-color: var(--bg);
-            color: var(--dark);
-            margin: 0;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            margin: 0; padding: 15px;
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        header {
-            width: 100%;
-            border-left: 4px solid var(--olive);
-            padding-left: 12px;
-            margin-bottom: 20px;
+        header { width: 100%; border-left: 5px solid var(--p-color); padding-left: 10px; margin-bottom: 20px; }
+        h1 { font-size: 1.1rem; margin: 0; text-transform: uppercase; }
+        .instr { font-size: 0.7rem; font-weight: 900; background: var(--dark); color: #fff; padding: 4px 10px; border-radius: 4px; margin-bottom: 15px; }
+
+        /* THE CONTROL PANEL */
+        .controls { width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+        .slot { height: 60px; border-radius: 6px; border: 2px solid #999; position: relative; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; text-transform: uppercase; text-align: center; }
+        .slot.active { border-color: var(--dark); box-shadow: 0 0 8px rgba(0,0,0,0.2); }
+
+        /* MOCKUP 1: PLANT CARD */
+        .mockup-container { width: 100%; max-width: 350px; background: #bbb; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .mock-label { font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; color: #444; }
+        
+        .plant-card {
+            background-color: var(--p-color);
+            border: 4px solid var(--s-color);
+            padding: 15px; border-radius: 4px; color: #fff;
+            position: relative; aspect-ratio: 4/6;
         }
+        .variety-code { font-family: monospace; font-size: 12px; color: var(--a-color); font-weight: bold; }
+        .variety-name { font-size: 1.5rem; font-weight: 900; margin: 5px 0; border-bottom: 2px solid var(--a-color); padding-bottom: 5px; }
+        .qr-code { width: 60px; height: 60px; background: #fff; position: absolute; bottom: 15px; right: 15px; border: 4px solid var(--s-color); }
+        .qr-inner { width: 100%; height: 100%; display: grid; grid-template-columns: repeat(4, 1fr); }
+        .qr-bit { background: var(--dark); }
 
-        h1 { font-size: 1.2rem; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
-        .sub { font-size: 0.8rem; font-weight: bold; color: #555; }
-
-        /* THE TRINITY - MOBILE STACK */
-        .comparison-zone {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 25px;
+        /* MOCKUP 2: COMMUNITY SIGN */
+        .stand-sign {
+            background-color: var(--p-color);
+            border-top: 10px solid var(--s-color);
+            padding: 20px; color: #fff; text-align: center;
         }
+        .sign-mission { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--a-color); font-weight: 900; margin-bottom: 5px; }
+        .sign-title { font-size: 1.8rem; font-weight: 900; margin: 0; }
 
-        .drop-slot {
-            height: 120px; /* Shorter for mobile stacking */
-            background: #eee;
-            border: 2px solid #aaa;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            transition: 0.2s;
-        }
+        /* LIBRARY */
+        .lib { width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 20px; }
+        .swatch { background: white; padding: 4px; border-radius: 4px; border: 2px solid transparent; text-align: center; }
+        .swatch.selected { border-color: var(--a-color); }
+        .preview { height: 40px; width: 100%; border-radius: 2px; margin-bottom: 4px; }
+        .s-name { font-size: 7px; font-weight: bold; text-transform: uppercase; }
 
-        .slot-label {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 3px 8px;
-            font-size: 9px;
-            font-weight: 800;
-            text-transform: uppercase;
-            border-radius: 3px;
-        }
-
-        .slot-info {
-            font-size: 14px;
-            font-weight: bold;
-            font-family: monospace;
-            padding: 5px 15px;
-            border-radius: 4px;
-            display: none;
-        }
-
-        /* INSTRUCTIONS */
-        .instr {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            background: var(--dark);
-            color: var(--accent);
-            padding: 4px 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            font-weight: 900;
-        }
-
-        /* LIBRARY - TAPPABLE TILES */
-        .library-head {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .library {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 across on mobile */
-            gap: 10px;
-        }
-
-        .swatch {
-            background: white;
-            padding: 5px;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border: 2px solid transparent;
-            text-align: center;
-        }
-
-        .swatch.selected {
-            border-color: var(--accent);
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(184, 115, 51, 0.5);
-        }
-
-        .color-preview { height: 50px; width: 100%; border-radius: 3px; margin-bottom: 5px; }
-        .swatch-name { font-size: 8px; font-weight: 800; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-        .btn-shuffle {
-            background: var(--dark);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            border-radius: 4px;
-            text-transform: uppercase;
-        }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>VCV Hierarchy Rig v6.0</h1>
-    <div class="sub">Mobile Field-Test Optimization</div>
+    <h1>VCV Context Mock-ups</h1>
+    <div class="sub">Visualizing the Hierarchy in the Field</div>
 </header>
 
-<div class="instr">1. Tap a Color &nbsp; | &nbsp; 2. Tap a Slot</div>
+<div class="instr">1. Tap Color | 2. Tap Slot</div>
 
-<div class="comparison-zone">
-    <div class="drop-slot" onclick="assignColor(this)">
-        <div class="slot-label">60% Base</div>
-        <div class="slot-info"></div>
-    </div>
-    <div class="drop-slot" onclick="assignColor(this)">
-        <div class="slot-label">30% Structure</div>
-        <div class="slot-info"></div>
-    </div>
-    <div class="drop-slot" onclick="assignColor(this)">
-        <div class="slot-label">10% Glitch</div>
-        <div class="slot-info"></div>
+<div class="controls">
+    <div class="slot" id="s60" onclick="assign('p')" style="background-color: var(--p-color);">60%<br>Base</div>
+    <div class="slot" id="s30" onclick="assign('s')" style="background-color: var(--s-color);">30%<br>Structure</div>
+    <div class="slot" id="s10" onclick="assign('a')" style="background-color: var(--a-color);">10%<br>Glitch</div>
+</div>
+
+<div class="mockup-container">
+    <div class="mock-label">Asset: Plant ID Card [4x6]</div>
+    <div class="plant-card">
+        <div class="variety-code">TOM-CP-BACK</div>
+        <div class="variety-name">Cherokee<br>Purple</div>
+        <div style="font-size: 10px; margin-top: 10px; opacity: 0.9;">High-Fidelity Heirloom<br>Shelby Township, MI</div>
+        <div class="qr-code">
+            <div class="qr-inner">
+                <div class="qr-bit"></div><div></div><div class="qr-bit"></div><div class="qr-bit"></div>
+                <div class="qr-bit"></div><div class="qr-bit"></div><div></div><div class="qr-bit"></div>
+                <div></div><div class="qr-bit"></div><div class="qr-bit"></div><div></div>
+                <div class="qr-bit"></div><div></div><div class="qr-bit"></div><div class="qr-bit"></div>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="library-head">
-    <div style="font-size: 0.75rem; font-weight: 900; text-transform: uppercase;">The Spectrum</div>
-    <button class="btn-shuffle" onclick="shuffleLibrary()">Shuffle</button>
+<div class="mockup-container">
+    <div class="mock-label">Asset: Community Stand Sign</div>
+    <div class="stand-sign">
+        <div class="sign-mission">Vand Chakko</div>
+        <div class="sign-title">FREE HARVEST</div>
+        <div style="font-size: 11px; margin-top: 10px; font-weight: bold;">High-Quality Produce for the Neighborhood</div>
+    </div>
 </div>
 
-<div class="library" id="lib">
-    <div class="swatch" onclick="selectSwatch(this)" data-hex="#2E4032" data-name="Deep Shadow">
-        <div class="color-preview" style="background-color: #2E4032;"></div><div class="swatch-name">Shadow</div>
-    </div>
-    <div class="swatch" onclick="selectSwatch(this)" data-hex="#4F5D44" data-name="Field Olive">
-        <div class="color-preview" style="background-color: #4F5D44;"></div><div class="swatch-name">Olive</div>
-    </div>
-    <div class="swatch" onclick="selectSwatch(this)" data-hex="#7A8D6E" data-name="Tech Sage">
-        <div class="color-preview" style="background-color: #7A8D6E;"></div><div class="swatch-name">Sage</div>
-    </div>
-    <div class="swatch" onclick="selectSwatch(this)" data-hex="#1A1A1B" data-name="Obsidian">
-        <div class="color-preview" style="background-color: #1A1A1B;"></div><div class="swatch-name">Obsidian</div>
-    </div>
-    <div class="swatch" onclick="selectSwatch(this)" data-hex="#2D2D2E" data-name="Blueprint">
-        <div class="color-preview" style="background-color: #2D2D2E;"></div><div class="swatch-name">Charcoal</div>
-    </div>
-    <div class="swatch" onclick="selectSwatch(this)" data-hex="#B87333" data-name="Copper">
-        <div class="color-preview" style="background-color: #B87333;"></div><div class="swatch-name">Copper</div>
-    </div>
-    <div class="swatch" onclick="selectSwatch(this)" data-hex="#D45B12" data-name="Rust">
-        <div class="color-preview" style="background-color: #D45B12;"></div><div class="swatch-name">Rust</div>
-    </div>
-    <div class="swatch" onclick="selectSwatch(this)" data-hex="#FFC107" data-name="Ember">
-        <div class="color-preview" style="background-color: #FFC107;"></div><div class="swatch-name">Ember</div>
-    </div>
-    <div class="swatch" onclick="selectSwatch(this)" data-hex="#8C7851" data-name="Bronze">
-        <div class="color-preview" style="background-color: #8C7851;"></div><div class="swatch-name">Bronze</div>
-    </div>
-    <div class="swatch" onclick="selectSwatch(this)" data-hex="#5E5E5E" data-name="Static">
-        <div class="color-preview" style="background-color: #5E5E5E;"></div><div class="swatch-name">Grey</div>
-    </div>
-    <div class="swatch" onclick="selectSwatch(this)" data-hex="#E0E0E0" data-name="White">
-        <div class="color-preview" style="background-color: #E0E0E0;"></div><div class="swatch-name">White</div>
-    </div>
+<div class="lib" id="lib">
+    <div class="swatch" onclick="pick(this)" data-hex="#2E4032" data-name="Shadow"><div class="preview" style="background-color: #2E4032;"></div><div class="s-name">Shadow</div></div>
+    <div class="swatch" onclick="pick(this)" data-hex="#4F5D44" data-name="Olive"><div class="preview" style="background-color: #4F5D44;"></div><div class="s-name">Olive</div></div>
+    <div class="swatch" onclick="pick(this)" data-hex="#7A8D6E" data-name="Sage"><div class="preview" style="background-color: #7A8D6E;"></div><div class="s-name">Sage</div></div>
+    <div class="swatch" onclick="pick(this)" data-hex="#1A1A1B" data-name="Obsidian"><div class="preview" style="background-color: #1A1A1B;"></div><div class="s-name">Obsidian</div></div>
+    <div class="swatch" onclick="pick(this)" data-hex="#2D2D2E" data-name="Blueprint"><div class="preview" style="background-color: #2D2D2E;"></div><div class="s-name">Blueprint</div></div>
+    <div class="swatch" onclick="pick(this)" data-hex="#B87333" data-name="Copper"><div class="preview" style="background-color: #B87333;"></div><div class="s-name">Copper</div></div>
+    <div class="swatch" onclick="pick(this)" data-hex="#D45B12" data-name="Rust"><div class="preview" style="background-color: #D45B12;"></div><div class="s-name">Rust</div></div>
+    <div class="swatch" onclick="pick(this)" data-hex="#FFC107" data-name="Ember"><div class="preview" style="background-color: #FFC107;"></div><div class="s-name">Ember</div></div>
 </div>
 
 <script>
-    let activeHex = null;
-    let activeName = null;
+    let activeColor = null;
 
-    function selectSwatch(el) {
+    function pick(el) {
         document.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
         el.classList.add('selected');
-        activeHex = el.getAttribute('data-hex');
-        activeName = el.getAttribute('data-name');
+        activeColor = el.getAttribute('data-hex');
     }
 
-    function assignColor(slot) {
-        if (!activeHex) return;
-        slot.style.backgroundColor = activeHex;
-        const info = slot.querySelector('.slot-info');
-        info.style.display = 'block';
-        info.innerHTML = activeHex;
+    function assign(type) {
+        if (!activeColor) return;
+        const root = document.querySelector(':root');
+        if (type === 'p') { root.style.setProperty('--p-color', activeColor); document.getElementById('s60').style.backgroundColor = activeColor; }
+        if (type === 's') { root.style.setProperty('--s-color', activeColor); document.getElementById('s30').style.backgroundColor = activeColor; }
+        if (type === 'a') { root.style.setProperty('--a-color', activeColor); document.getElementById('s10').style.backgroundColor = activeColor; }
         
-        const brightness = getBrightness(activeHex);
-        info.style.color = (brightness > 125) ? '#1A1A1B' : '#FFFFFF';
-        info.style.backgroundColor = (brightness > 125) ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.4)';
+        // Dynamic Text Color Check
+        document.querySelectorAll('.plant-card, .stand-sign').forEach(el => {
+            const brightness = getBrightness(getComputedStyle(el).backgroundColor);
+            el.style.color = (brightness > 125) ? '#1A1A1B' : '#FFFFFF';
+        });
     }
 
-    function getBrightness(hex) {
-        hex = hex.replace('#', '');
-        const r = parseInt(hex.substr(0,2),16);
-        const g = parseInt(hex.substr(2,2),16);
-        const b = parseInt(hex.substr(4,2),16);
-        return ((r*299)+(g*587)+(b*114))/1000;
-    }
-
-    function shuffleLibrary() {
-        const lib = document.getElementById('lib');
-        const swatches = Array.from(lib.children);
-        for (let i = swatches.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            lib.appendChild(swatches[j]);
-        }
+    function getBrightness(rgb) {
+        const parts = rgb.match(/\d+/g);
+        return ((parts[0]*299)+(parts[1]*587)+(parts[2]*114))/1000;
     }
 </script>
 
