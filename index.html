@@ -3,125 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VCV | Context Mock-ups v7.1</title>
+    <title>VCV | Alicia's Design Rig v7.2</title>
     <style>
         :root {
-            --bg: #dcdcdc;
-            --dark: #1A1A1B;
-            --p-color: #4F5D44; /* 60% Default: Field Olive */
-            --s-color: #2D2D2E; /* 30% Default: Charcoal Blueprint */
-            --a-color: #B87333; /* 10% Default: Copper Trace */
+            --bg: #dcdcdc; --dark: #1A1A1B;
+            --p-color: #4F5D44; --s-color: #2D2D2E; --a-color: #B87333;
         }
-
-        body {
-            font-family: -apple-system, sans-serif;
-            background-color: var(--bg);
-            margin: 0; padding: 15px;
-            display: flex; flex-direction: column; align-items: center;
-            color: var(--dark);
-        }
-
-        header { width: 100%; border-left: 5px solid var(--p-color); padding-left: 10px; margin-bottom: 20px; }
-        h1 { font-size: 1.1rem; margin: 0; text-transform: uppercase; }
-        .sub { font-size: 0.8rem; font-weight: bold; color: #555; }
-        .instr { font-size: 0.7rem; font-weight: 900; background: var(--dark); color: #B87333; padding: 6px 10px; border-radius: 4px; margin: 15px 0; text-align: center; width: 100%; box-sizing: border-box; }
-
-        .controls { width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
-        .slot { height: 75px; border-radius: 6px; border: 2px solid #999; position: relative; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; text-transform: uppercase; text-align: center; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.5); cursor: pointer; }
-
-        .mockup-container { width: 100%; max-width: 400px; background: #bbb; padding: 15px; border-radius: 10px; margin-bottom: 20px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); box-sizing: border-box; }
-        .mock-label { font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; color: #444; }
+        body { font-family: sans-serif; background: var(--bg); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; color: var(--dark); }
+        header { width: 100%; border-left: 8px solid var(--p-color); padding-left: 12px; margin-bottom: 20px; }
+        .instr { font-size: 0.75rem; font-weight: 900; background: var(--dark); color: #fff; padding: 10px; border-radius: 4px; margin-bottom: 15px; text-align: center; width: 100%; box-sizing: border-box; }
         
-        .plant-card {
-            background-color: var(--p-color);
-            border: 5px solid var(--s-color);
-            padding: 15px; border-radius: 4px; color: #fff;
-            position: relative; aspect-ratio: 4/6; transition: 0.3s;
-        }
-        .variety-code { font-family: monospace; font-size: 12px; color: var(--a-color); font-weight: bold; text-transform: uppercase; }
-        .variety-name { font-size: 1.6rem; font-weight: 900; margin: 5px 0; border-bottom: 3px solid var(--a-color); padding-bottom: 5px; line-height: 1.1; }
-        .qr-code { width: 70px; height: 70px; background: #fff; position: absolute; bottom: 15px; right: 15px; border: 4px solid var(--s-color); padding: 4px; }
-        .qr-inner { width: 100%; height: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
-        .qr-bit { background: var(--dark); }
+        /* THE SLOTS */
+        .controls { width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .slot { height: 90px; border-radius: 8px; border: 3px solid #999; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.6); cursor: pointer; transition: 0.2s; }
+        .slot span { font-size: 14px; margin-top: 5px; }
 
-        .lib-label { width: 100%; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; }
-        .lib { width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 5px; padding-bottom: 40px; }
-        .swatch { background: white; padding: 5px; border-radius: 6px; border: 2px solid transparent; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; }
-        .swatch.selected { border-color: var(--dark); }
-        .preview { height: 40px; width: 100%; border-radius: 3px; margin-bottom: 5px; }
-        .s-name { font-size: 8px; font-weight: bold; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #333; }
+        /* MOCKUP */
+        .mockup-container { width: 100%; max-width: 400px; background: #bbb; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.1); box-sizing: border-box; }
+        .plant-card { background: var(--p-color); border: 6px solid var(--s-color); padding: 20px; border-radius: 4px; color: #fff; aspect-ratio: 4/6; transition: 0.4s; position: relative; }
+        .v-name { font-size: 1.8rem; font-weight: 900; border-bottom: 4px solid var(--a-color); padding-bottom: 8px; line-height: 1; }
+
+        /* THE LIBRARY */
+        .lib-section { width: 100%; max-width: 450px; background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); box-sizing: border-box; }
+        .lib-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 10px; }
+        .swatch { cursor: pointer; text-align: center; transition: 0.2s; }
+        .preview { height: 45px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.1); margin-bottom: 4px; }
+        .swatch.active .preview { border: 3px solid var(--dark); transform: scale(1.05); }
+        .s-name { font-size: 9px; font-weight: 800; text-transform: uppercase; color: #666; }
+
+        /* ACTION BUTTONS */
+        .actions { display: flex; gap: 10px; margin-top: 20px; width: 100%; }
+        button { flex: 1; padding: 12px; border-radius: 6px; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 10px; }
+        .btn-save { background: #2E4032; color: white; }
+        .btn-reset { background: #5E5E5E; color: white; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>VCV Context Mock-ups</h1>
-    <div class="sub">Baked Earth Spectrum v7.1 | [Official State]</div>
+    <h1 style="margin:0; font-size: 1.2rem;">VCV DESIGN RIG v7.2</h1>
+    <div style="font-size: 0.8rem; font-weight: bold; opacity: 0.7;">For Alicia | Baked Earth & Sunset</div>
 </header>
 
-<div class="instr">1. SELECT COLOR BELOW | 2. TAP SLOT (60 / 30 / 10)</div>
+<div class="instr">TAP A COLOR → TAP A SLOT (BASE, STRUCTURE, OR GLITCH)</div>
 
 <div class="controls">
-    <div class="slot" id="s60" onclick="assign('p')" style="background-color: var(--p-color);">60%<br>Base</div>
-    <div class="slot" id="s30" onclick="assign('s')" style="background-color: var(--s-color);">30%<br>Structure</div>
-    <div class="slot" id="s10" onclick="assign('a')" style="background-color: var(--a-color);">10%<br>Glitch</div>
+    <div class="slot" id="s60" onclick="assign('p')" style="background-color: var(--p-color);">60% BASE<br><span id="hex60">#4F5D44</span></div>
+    <div class="slot" id="s30" onclick="assign('s')" style="background-color: var(--s-color);">30% STRUC<br><span id="hex30">#2D2D2E</span></div>
+    <div class="slot" id="s10" onclick="assign('a')" style="background-color: var(--a-color);">10% GLITCH<br><span id="hex10">#B87333</span></div>
 </div>
 
 <div class="mockup-container">
-    <div class="mock-label">Asset: Plant ID Card [4x6]</div>
-    <div class="plant-card" id="pc">
-        <div class="variety-code">TOM-CP-BACK</div>
-        <div class="variety-name">Cherokee<br>Purple</div>
-        <div style="font-size: 11px; margin-top: 10px; opacity: 0.85;">High-Fidelity Heirloom<br>Shelby Township, MI</div>
-        <div class="qr-code">
-            <div class="qr-inner">
-                <div class="qr-bit"></div><div></div><div class="qr-bit"></div><div class="qr-bit"></div>
-                <div class="qr-bit"></div><div class="qr-bit"></div><div></div><div class="qr-bit"></div>
-                <div></div><div class="qr-bit"></div><div class="qr-bit"></div><div></div>
-                <div class="qr-bit"></div><div></div><div class="qr-bit"></div><div class="qr-bit"></div>
-            </div>
-        </div>
+    <div class="plant-card">
+        <div style="font-family:monospace; font-weight:bold; color:var(--a-color);">TOM-CP-BACK</div>
+        <div class="v-name">Cherokee<br>Purple</div>
+        <div style="font-size: 12px; margin-top:15px; font-weight:600; opacity:0.9;">Vand Chakko Veggies<br>High-Fidelity Produce</div>
+        <div style="position:absolute; bottom:20px; right:20px; width:60px; height:60px; background:white; border:4px solid var(--s-color);"></div>
     </div>
 </div>
 
-<div class="lib-label"><span>The Full Spectrum</span><span id="sel-hex" style="color:var(--a-color)">SELECT A COLOR</span></div>
-
-<div class="lib" id="lib">
-    <div class="swatch" onclick="pick(this)" data-hex="#2E4032" data-name="Shadow"><div class="preview" style="background-color: #2E4032;"></div><div class="s-name">Shadow</div></div>
-    <div class="swatch" onclick="pick(this)" data-hex="#4F5D44" data-name="Olive"><div class="preview" style="background-color: #4F5D44;"></div><div class="s-name">Olive</div></div>
-    <div class="swatch" onclick="pick(this)" data-hex="#7A8D6E" data-name="Sage"><div class="preview" style="background-color: #7A8D6E;"></div><div class="s-name">Sage</div></div>
-    <div class="swatch" onclick="pick(this)" data-hex="#1A1A1B" data-name="Obsidian"><div class="preview" style="background-color: #1A1A1B;"></div><div class="s-name">Obsidian</div></div>
-    <div class="swatch" onclick="pick(this)" data-hex="#2D2D2E" data-name="Blueprint"><div class="preview" style="background-color: #2D2D2E;"></div><div class="s-name">Blueprint</div></div>
-    <div class="swatch" onclick="pick(this)" data-hex="#B87333" data-name="Copper"><div class="preview" style="background-color: #B87333;"></div><div class="s-name">Copper</div></div>
-    <div class="swatch" onclick="pick(this)" data-hex="#D45B12" data-name="Rust"><div class="preview" style="background-color: #D45B12;"></div><div class="s-name">Rust</div></div>
-    <div class="swatch" onclick="pick(this)" data-hex="#FFC107" data-name="Ember"><div class="preview" style="background-color: #FFC107;"></div><div class="s-name">Ember</div></div>
-    <div class="swatch" onclick="pick(this)" data-hex="#8C7851" data-name="Bronze"><div class="preview" style="background-color: #8C7851;"></div><div class="s-name">Bronze</div></div>
-    <div class="swatch" onclick="pick(this)" data-hex="#5E5E5E" data-name="Static"><div class="preview" style="background-color: #5E5E5E;"></div><div class="s-name">Static</div></div>
-    <div class="swatch" onclick="pick(this)" data-hex="#E0E0E0" data-name="White"><div class="preview" style="background-color: #E0E0E0;"></div><div class="s-name">White</div></div>
+<div class="lib-section">
+    <div style="font-size: 10px; font-weight:900; letter-spacing:1px;">THE SPECTRUM (16 COLORS)</div>
+    <div class="lib-grid" id="libGrid">
+        </div>
+    <div class="actions">
+        <button class="btn-save" onclick="saveState()">💾 Save This Look</button>
+        <button class="btn-reset" onclick="resetState()">🔄 Reset Master</button>
+    </div>
 </div>
 
 <script>
+    const colors = [
+        {h:'#2E4032', n:'Shadow'}, {h:'#4F5D44', n:'Olive'}, {h:'#7A8D6E', n:'Sage'}, {h:'#1A1A1B', n:'Obsidian'},
+        {h:'#2D2D2E', n:'Blueprint'}, {h:'#B87333', n:'Copper'}, {h:'#D45B12', n:'Rust'}, {h:'#FFC107', n:'Ember'},
+        {h:'#8C7851', n:'Bronze'}, {h:'#5E5E5E', n:'Static'}, {h:'#E0E0E0', n:'White'},
+        // SUNSET EXPANSION
+        {h:'#A64B35', n:'Terracotta'}, {h:'#D99E32', n:'Ochre'}, {h:'#4A3F54', n:'Dusk'}, {h:'#E67E22', n:'Harvest'}, {h:'#4E5E66', n:'Horizon'}
+    ];
+
     let selectedHex = null;
-    function pick(el) {
-        document.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
-        el.classList.add('selected');
-        selectedHex = el.getAttribute('data-hex');
-        document.getElementById('sel-hex').innerText = selectedHex;
+
+    function initLib() {
+        const grid = document.getElementById('libGrid');
+        colors.forEach(c => {
+            const div = document.createElement('div');
+            div.className = 'swatch';
+            div.innerHTML = `<div class="preview" style="background:${c.h}"></div><div class="s-name">${c.n}</div>`;
+            div.onclick = () => {
+                document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+                div.classList.add('active');
+                selectedHex = c.h;
+            };
+            grid.appendChild(div);
+        });
     }
+
     function assign(type) {
-        if (!selectedHex) return;
+        if(!selectedHex) return;
         const root = document.querySelector(':root');
-        if (type === 'p') {
-            root.style.setProperty('--p-color', selectedHex);
-            document.getElementById('s60').style.backgroundColor = selectedHex;
-        } else if (type === 's') {
-            root.style.setProperty('--s-color', selectedHex);
-            document.getElementById('s30').style.backgroundColor = selectedHex;
-        } else if (type === 'a') {
-            root.style.setProperty('--a-color', selectedHex);
-            document.getElementById('s10').style.backgroundColor = selectedHex;
-        }
+        if(type === 'p') { root.style.setProperty('--p-color', selectedHex); document.getElementById('s60').style.backgroundColor = selectedHex; document.getElementById('hex60').innerText = selectedHex; }
+        if(type === 's') { root.style.setProperty('--s-color', selectedHex); document.getElementById('s30').style.backgroundColor = selectedHex; document.getElementById('hex30').innerText = selectedHex; }
+        if(type === 'a') { root.style.setProperty('--a-color', selectedHex); document.getElementById('s10').style.backgroundColor = selectedHex; document.getElementById('hex10').innerText = selectedHex; }
     }
+
+    function saveState() {
+        const state = {
+            p: getComputedStyle(document.documentElement).getPropertyValue('--p-color').trim(),
+            s: getComputedStyle(document.documentElement).getPropertyValue('--s-color').trim(),
+            a: getComputedStyle(document.documentElement).getPropertyValue('--a-color').trim()
+        };
+        localStorage.setItem('vcvPalette', JSON.stringify(state));
+        alert("Palette Saved for Alicia!");
+    }
+
+    function resetState() {
+        localStorage.clear();
+        location.reload();
+    }
+
+    window.onload = () => {
+        initLib();
+        const saved = localStorage.getItem('vcvPalette');
+        if(saved) {
+            const s = JSON.parse(saved);
+            selectedHex = s.p; assign('p');
+            selectedHex = s.s; assign('s');
+            selectedHex = s.a; assign('a');
+            selectedHex = null;
+        }
+    };
 </script>
 </body>
 </html>
